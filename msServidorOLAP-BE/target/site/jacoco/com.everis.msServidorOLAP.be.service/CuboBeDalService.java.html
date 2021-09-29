@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CuboBeDalService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msServidorOLAPBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msServidorOLAP.be.service</a> &gt; <span class="el_source">CuboBeDalService.java</span></div><h1>CuboBeDalService.java</h1><pre class="source lang-java linenums">package com.everis.msServidorOLAP.be.service;
+
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.*;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+<span class="nc" id="L16">@Slf4j</span>
+@Service
+<span class="nc" id="L18">public class CuboBeDalService {</span>
+
+<span class="nc" id="L20">    private static Logger LOG = LoggerFactory.getLogger(CuboBeDalService.class);</span>
+    /**
+     * Método findAll
+     *
+     * @param
+     * @retur lista de cubos
+     * */
+     public List&lt;CuboDTO&gt; findAllCubos(){
+<span class="nc" id="L28">         log.debug(&quot;findAllCubo&quot;);</span>
+    //llamado al servicio
+<span class="nc" id="L30">         LOG.info(&quot;llamado al microservicio que retorna la consulta de all&quot;);</span>
+
+
+<span class="nc" id="L33">         LOG.info(&quot;Retornando un listado de todos los cubos&quot;);</span>
+<span class="nc" id="L34">         return  null;</span>
+     }
+    /**
+     * Método findByheader
+     *
+     * @param cubo
+     * @retur lista de cubos
+     * */
+     public List&lt;BeDalDetalleCuboDTO&gt; findByheader(String cubo) throws SiecaException {
+
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">         if (cubo == null) {</span>
+<span class="nc" id="L46">             throw new SiecaException(ConstantMsg.CODE_460,</span>
+<span class="nc" id="L47">                     String.format(ConstantMsg.CODE_460, &quot;Cubo&quot;));</span>
+         }
+<span class="nc" id="L49">         LOG.info(&quot;llamado al microservicio que retorna la consulta por detalle con el request header &quot;+cubo);</span>
+
+<span class="nc" id="L51">         LOG.info(&quot;listado de cubos retornando a la peticion&quot;);</span>
+<span class="nc" id="L52">         return null;</span>
+     }
+
+    /**
+     * Método crearSelect
+     *
+     * @param beDalDetalleCuboDTO
+     * @retur lista de cubos
+     * */
+     public int crearSelect(DetalleCubo2DTO beDalDetalleCuboDTO) {
+
+         //LOG.info(beDalDetalleCuboDTO.getCubo());
+         //paso1 recibir json
+<span class="nc" id="L65">         StringBuilder strSQL = new StringBuilder(&quot;SELECT&quot;);</span>
+<span class="nc" id="L66">         int i = 1;</span>
+
+<span class="nc" id="L68">         int c = 1;</span>
+
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(beDalDetalleCuboDTO.getDimensiones()!=null){</span>
+
+<span class="nc" id="L72">            Iterator&lt;BeDalDetalleCuboDimension2DTO&gt;ListDimensiones=</span>
+<span class="nc" id="L73">                    Arrays.asList(beDalDetalleCuboDTO.getDimensiones()).iterator();</span>
+
+<span class="nc" id="L75">            int sizelistDime = Arrays.asList(beDalDetalleCuboDTO.getDimensiones()).size();</span>
+
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            while (ListDimensiones.hasNext()) {</span>
+
+                String strValores;
+
+<span class="nc" id="L81">                BeDalDetalleCuboDimension2DTO dimension= ListDimensiones.next();</span>
+
+<span class="nc" id="L83">                String nombreDimension =dimension.getNombre();</span>
+
+                //LOG.info(dimension.getNombre());
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                if(dimension.getValores()!=null){</span>
+<span class="nc" id="L88">                    Iterator&lt;DetalleCuboDimensionValor2DTO&gt;listValores=</span>
+<span class="nc" id="L89">                            Arrays.asList(dimension.getValores()).iterator();</span>
+
+<span class="nc" id="L91">                    int sizeListValores = Arrays.asList(dimension.getValores()).size();</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">                    while(listValores.hasNext()){</span>
+
+<span class="nc" id="L95">                        DetalleCuboDimensionValor2DTO valor = listValores.next();</span>
+
+<span class="nc" id="L97">                        strValores =&quot;{ [&quot; + nombreDimension</span>
+<span class="nc" id="L98">                                + &quot;].[&quot; + valor.getValor() + &quot;].[&quot; + valor.getLlave() + &quot;].CHILDREN} ON COLUMNS&quot;;</span>
+
+<span class="nc" id="L100">                        strSQL.append(strValores);</span>
+
+<span class="nc bnc" id="L102" title="All 4 branches missed.">                        if (c != sizeListValores &amp;&amp; i != sizelistDime) {</span>
+<span class="nc" id="L103">                            strSQL.append(&quot;,&quot;);</span>
+                        }
+<span class="nc" id="L105">                    }</span>
+<span class="nc" id="L106">                    c++;</span>
+                }
+
+<span class="nc" id="L109">                i++;</span>
+<span class="nc" id="L110">            }</span>
+
+<span class="nc" id="L112">            strSQL.append(&quot; FROM [dw_sieca_pdcc].[dwh].[Fact_AgentesAduaneros_AFPA]&quot;);</span>
+
+        }
+<span class="nc" id="L115">         LOG.info(strSQL.toString());</span>
+
+<span class="nc" id="L117">        ConsultaSqlSelectDTO consultaSqlSelectDTO = new ConsultaSqlSelectDTO();</span>
+
+<span class="nc" id="L119">        consultaSqlSelectDTO.setConsultaSql(strSQL.toString());</span>
+<span class="nc" id="L120">         LOG.info(&quot;Se usa el microservico del Dal para el envio de consulta  Sql en un JSON&quot;);</span>
+
+<span class="nc" id="L122">         LOG.info(&quot;se recibe la respuesta de Microservicio&quot;);</span>
+
+<span class="nc" id="L124">         LOG.info(&quot;queda pendiente como va ser el response&quot;);</span>
+
+<span class="nc" id="L126">         return 0;</span>
+     }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

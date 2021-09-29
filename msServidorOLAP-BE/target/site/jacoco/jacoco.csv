@@ -1,17 +1,12 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-msDemoBE,com.everis.msdemo.be.service,ControlErrorService,126,235,11,33,20,39,11,18,0,7
-msDemoBE,com.everis.msdemo.be.service,AdicionalService,395,209,29,9,68,33,35,11,18,9
-msDemoBE,com.everis.msdemo.be.service,PrincipalService,131,0,2,0,19,0,9,0,8,0
-msDemoBE,com.everis.msdemo.be.service,AdicionalService.new ParameterizedTypeReference() {...},0,6,0,0,0,1,0,1,0,1
-msDemoBE,com.everis.msdemo.be.service,AdicionalService.new ParameterizedTypeReference() {...},0,6,0,0,0,1,0,1,0,1
-msDemoBE,com.everis.msdemo.be.service,AdicionalService.new ParameterizedTypeReference() {...},6,0,0,0,1,0,1,0,1,0
-msDemoBE,com.everis.msdemo.be.service,AdicionalService.new ParameterizedTypeReference() {...},6,0,0,0,1,0,1,0,1,0
-msDemoBE,com.everis.msdemo.be.constant,ConstantMsg,7,0,0,0,2,0,1,0,1,0
-msDemoBE,com.everis.msdemo.be,Application,32,0,0,0,8,0,5,0,5,0
-msDemoBE,com.everis.msdemo.be,SwaggerConfig,15,0,0,0,4,0,2,0,2,0
-msDemoBE,com.everis.msdemo.be.controller,PrincipalControllerImpl,31,0,0,0,7,0,2,0,2,0
-msDemoBE,com.everis.msdemo.be.controller,HandleErrorControllerImpl,198,0,0,0,40,0,10,0,10,0
-msDemoBE,com.everis.msdemo.be.mapper,AdjuntosMapperImpl,120,0,22,0,37,0,16,0,5,0
-msDemoBE,com.everis.msdemo.be.mapper,AdjuntosMapper,5,0,0,0,1,0,1,0,1,0
-msDemoBE,com.everis.msdemo.be.mapper,PrincipalMapperImpl,93,0,22,0,32,0,15,0,4,0
-msDemoBE,com.everis.msdemo.be.mapper,PrincipalMapper,5,0,0,0,1,0,1,0,1,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.controller,HandleErrorControllerImpl,198,0,0,0,40,0,10,0,10,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.controller,CuboBeDalControllerImpl,65,0,0,0,17,0,5,0,5,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.service,AdicionalService,108,0,6,0,17,0,9,0,6,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.service,ControlErrorService,361,0,44,0,59,0,29,0,7,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.service,CuboBeDalService,169,0,14,0,46,0,12,0,5,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.mapper,PrincipalMapperImpl,3,0,0,0,1,0,1,0,1,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.mapper,AdjuntosMapper,5,0,0,0,1,0,1,0,1,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.mapper,AdjuntosMapperImpl,3,0,0,0,1,0,1,0,1,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be.constant,ConstantMsg,7,0,0,0,2,0,1,0,1,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be,SwaggerConfig,15,0,0,0,4,0,2,0,2,0
+msServidorOLAPBE,com.everis.msServidorOLAP.be,Application,32,0,0,0,8,0,5,0,5,0

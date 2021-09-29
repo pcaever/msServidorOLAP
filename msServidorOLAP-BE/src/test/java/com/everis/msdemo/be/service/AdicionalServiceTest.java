@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.service;
+package com.everis.msServidorOLAP.be.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;

@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.mapper;
+package com.everis.msServidorOLAP.be.mapper;
 
 import org.mapstruct.Mapper;
 
@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 public interface PrincipalMapper {/*
 	PrincipalMapper INSTANCE = Mappers.getMapper(PrincipalMapper.class);
 
-	@Mapping(source = "principalMainMSDTO.pais.id", target = "paisId")
+	@Mapping(source = "msServidorOLAP.pais.id", target = "paisId")
 	@Mapping(source = "adjuntos", target = "adjuntos")
 	@Mapping(target = "usuarioCrea", source = "usuario")
     @Mapping(target = "usuarioActualiza", source = "usuario")

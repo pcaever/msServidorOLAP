@@ -1,11 +1,11 @@
-package com.everis.msdemo.dal.mapper;
+package com.everis.msServidorOLAP.dal.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import com.everis.msdemo.dal.dto.PrincipalDTO;
-import com.everis.msdemo.dal.entity.Principal;
+import com.everis.msServidorOLAP.dal.dto.PrincipalDTO;
+import com.everis.msServidorOLAP.dal.entity.Principal;
 
 @Mapper
 public interface PrincipalMapper {

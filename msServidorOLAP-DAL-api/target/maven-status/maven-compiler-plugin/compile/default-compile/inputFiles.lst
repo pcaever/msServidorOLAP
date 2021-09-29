@@ -1,3 +1,3 @@
-/home/pedro/Escritorio/PDCC/Spring 46/BE/msDemoDAL-api/src/main/java/com/everis/msdemo/dal/controller/PrincipalController.java
-/home/pedro/Escritorio/PDCC/Spring 46/BE/msDemoDAL-api/src/main/java/com/everis/msdemo/dal/dto/AdjuntoDTO.java
-/home/pedro/Escritorio/PDCC/Spring 46/BE/msDemoDAL-api/src/main/java/com/everis/msdemo/dal/dto/PrincipalDTO.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL-api/src/main/java/com/everis/msServidorOLAP/dal/dto/PrincipalDTO.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL-api/src/main/java/com/everis/msServidorOLAP/dal/controller/PrincipalController.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL-api/src/main/java/com/everis/msServidorOLAP/dal/dto/AdjuntoDTO.java

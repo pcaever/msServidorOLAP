@@ -1,0 +1,9 @@
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/service/PrincipalService.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/SwaggerConfig.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/entity/Adjuntos.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/repository/PrincipalRepository.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/Application.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/entity/Principal.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/mapper/PrincipalMapper.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/controller/PrincipalControllerImpl.java
+/home/pedro/Escritorio/PDCC/Spring 46/msServidorOLAP/msServidorOLAP-DAL/src/main/java/com/everis/msServidorOLAP/dal/repository/QuerysJPQL.java

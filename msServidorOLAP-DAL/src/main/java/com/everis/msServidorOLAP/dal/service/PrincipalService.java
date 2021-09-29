@@ -1,13 +1,13 @@
-package com.everis.msdemo.dal.service;
+package com.everis.msServidorOLAP.dal.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.everis.msdemo.dal.dto.PrincipalDTO;
-import com.everis.msdemo.dal.entity.Principal;
-import com.everis.msdemo.dal.mapper.PrincipalMapper;
-import com.everis.msdemo.dal.repository.PrincipalRepository;
+import com.everis.msServidorOLAP.dal.dto.PrincipalDTO;
+import com.everis.msServidorOLAP.dal.entity.Principal;
+import com.everis.msServidorOLAP.dal.mapper.PrincipalMapper;
+import com.everis.msServidorOLAP.dal.repository.PrincipalRepository;
 
 @Service
 public class PrincipalService {

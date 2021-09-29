@@ -1,18 +1,0 @@
-
-d
-java:S3008"NRename this field "LOG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÀÙ‘˜
-A
-java:S1168""+Return an empty collection instead of null.(•πÔç
-W
-java:S34571"AFormat specifiers should be used instead of string concatenation.(Ï”ñä
-A
-java:S11684"+Return an empty collection instead of null.(•πÔç
-g
-java:S3776="RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(Ê«ç
-Q	java:S125?"<This block of commented-out lines of code should be removed.(πœÄÊ
-]	java:S125U"<This block of commented-out lines of code should be removed.(ÂúÆ¶¯ˇˇˇˇ8µ‡å£¡/
-e	java:S117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(≠Äî8
-M
-java:S26291"7Use the built-in formatting to construct this argument.(Ï”ñä
-?
-java:S2629s"$Invoke method(s) only conditionally.(ÚèÆ∞˝ˇˇˇˇ

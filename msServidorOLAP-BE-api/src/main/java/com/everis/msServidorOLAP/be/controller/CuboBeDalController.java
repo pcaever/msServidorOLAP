@@ -1,8 +1,8 @@
-package com.everis.msdemo.be.controller;
+package com.everis.msServidorOLAP.be.controller;
 
-import com.everis.msdemo.be.dto.DetalleCubo2DTO;
-import com.everis.msdemo.be.dto.ResponseDTO;
-import com.everis.msdemo.be.exception.SiecaException;
+import com.everis.msServidorOLAP.be.dto.DetalleCubo2DTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

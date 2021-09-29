@@ -1,0 +1,10 @@
+com/everis/msServidorOLAP/dal/entity/Adjuntos.class
+com/everis/msServidorOLAP/dal/mapper/PrincipalMapperImpl.class
+com/everis/msServidorOLAP/dal/controller/PrincipalControllerImpl.class
+com/everis/msServidorOLAP/dal/Application.class
+com/everis/msServidorOLAP/dal/mapper/PrincipalMapper.class
+com/everis/msServidorOLAP/dal/repository/QuerysJPQL.class
+com/everis/msServidorOLAP/dal/entity/Principal.class
+com/everis/msServidorOLAP/dal/repository/PrincipalRepository.class
+com/everis/msServidorOLAP/dal/SwaggerConfig.class
+com/everis/msServidorOLAP/dal/service/PrincipalService.class

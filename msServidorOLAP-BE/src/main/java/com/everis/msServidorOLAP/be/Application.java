@@ -1,4 +1,4 @@
-package com.everis.msdemo.be;
+package com.everis.msServidorOLAP.be;
 
 import java.util.Date;
 import java.util.TimeZone;

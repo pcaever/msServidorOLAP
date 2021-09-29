@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.msdto;
+package com.everis.msServidorOLAP.be.msdto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

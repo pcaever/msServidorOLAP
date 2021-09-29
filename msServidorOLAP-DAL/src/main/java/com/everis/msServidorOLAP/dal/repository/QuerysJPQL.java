@@ -1,4 +1,4 @@
-package com.everis.msdemo.dal.repository;
+package com.everis.msServidorOLAP.dal.repository;
 
 public class QuerysJPQL {
 	private QuerysJPQL() {	}

@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.mapper;
+package com.everis.msServidorOLAP.be.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

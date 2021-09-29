@@ -1,8 +1,8 @@
-package com.everis.msdemo.be.service;
+package com.everis.msServidorOLAP.be.service;
 
-import com.everis.msdemo.be.constant.ConstantMsg;
-import com.everis.msdemo.be.dto.*;
-import com.everis.msdemo.be.exception.SiecaException;
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.*;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.validation;
+package com.everis.msServidorOLAP.be.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

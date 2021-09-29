@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CuboBeDalControllerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msServidorOLAPBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msServidorOLAP.be.controller</a> &gt; <span class="el_source">CuboBeDalControllerImpl.java</span></div><h1>CuboBeDalControllerImpl.java</h1><pre class="source lang-java linenums">package com.everis.msServidorOLAP.be.controller;
+
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.DetalleCubo2DTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
+import com.everis.msServidorOLAP.be.service.CuboBeDalService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
+
+@RestController
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="nc" id="L16">public class CuboBeDalControllerImpl extends HandleErrorControllerImpl implements CuboBeDalController{</span>
+
+    @Autowired
+    CuboBeDalService cuboBeDalService;
+
+    @Override
+    public String sluado() {
+<span class="nc" id="L23">        return &quot;Hola soy controller CuboDal&quot;;</span>
+    }
+
+    @Override
+    public ResponseDTO endPoint1() throws SiecaException {
+<span class="nc" id="L28">        ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L29">        responseDTO.setResponse(cuboBeDalService.findAllCubos());</span>
+<span class="nc" id="L30">        responseDTO.getError().setCodError(ConstantMsg.CODE_200);</span>
+<span class="nc" id="L31">        responseDTO.getError().setMessError(ConstantMsg.ERROR_200);</span>
+
+<span class="nc" id="L33">        return responseDTO;</span>
+    }
+
+    @Override
+    public ResponseDTO endPoint2(String cubo) throws SiecaException {
+<span class="nc" id="L38">        ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L39">        responseDTO.setResponse(cuboBeDalService.findByheader(cubo));</span>
+<span class="nc" id="L40">        responseDTO.getError().setCodError(ConstantMsg.CODE_200);</span>
+<span class="nc" id="L41">        responseDTO.getError().setMessError(ConstantMsg.ERROR_200);</span>
+
+<span class="nc" id="L43">        return responseDTO;</span>
+    }
+
+    @Override
+    public ResponseDTO endPoint3( @Valid DetalleCubo2DTO beDalDetalleCuboDTO) throws SiecaException {
+<span class="nc" id="L48">        ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L49">        responseDTO.setResponse(cuboBeDalService.crearSelect(beDalDetalleCuboDTO));</span>
+<span class="nc" id="L50">        responseDTO.getError().setCodError(ConstantMsg.CODE_200);</span>
+<span class="nc" id="L51">        responseDTO.getError().setMessError(ConstantMsg.ERROR_200);</span>
+<span class="nc" id="L52">        return responseDTO;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,4 +1,4 @@
-package com.everis.msdemo.dal;
+package com.everis.msServidorOLAP.dal;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.everis.msdemo.dal.controller"))
+				.apis(RequestHandlerSelectors.basePackage("com.everis.msServidorOLAP.dal.controller"))
 				.paths(PathSelectors.any()).build();
 	}
 }

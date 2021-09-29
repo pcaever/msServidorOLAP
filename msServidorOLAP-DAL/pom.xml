@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.everis</groupId>
-	<artifactId>msDemoDAL</artifactId>
+	<artifactId>msServidorOLAPDAL</artifactId>
 	<version>0.0.1</version>
-	<name>msDemoDAL</name>
+	<name>msServidorOLAPDAL</name>
 	<description>Demo project for Spring Boot</description>    
 
 	<properties>
@@ -67,7 +67,7 @@
 
 		<dependency>
             <groupId>com.everis</groupId>
-            <artifactId>msDemoDAL-api</artifactId>
+            <artifactId>msServidorOLAPDAL-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -137,7 +137,7 @@
         </profile>
     </profiles>
 	<build>
-        <finalName>msDemoDAL</finalName>
+        <finalName>msServidorOLAPDAL</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

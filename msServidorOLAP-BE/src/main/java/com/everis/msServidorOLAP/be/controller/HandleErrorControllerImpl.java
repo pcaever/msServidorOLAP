@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.controller;
+package com.everis.msServidorOLAP.be.controller;
 
 import java.util.Arrays;
 
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.everis.msdemo.be.constant.ConstantMsg;
-import com.everis.msdemo.be.dto.MensajesErrorDTO;
-import com.everis.msdemo.be.dto.ResponseDTO;
-import com.everis.msdemo.be.exception.SiecaException;
-import com.everis.msdemo.be.service.AdicionalService;
-import com.everis.msdemo.be.service.ControlErrorService;
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.MensajesErrorDTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
+import com.everis.msServidorOLAP.be.service.AdicionalService;
+import com.everis.msServidorOLAP.be.service.ControlErrorService;
 
 @RestController
 @CrossOrigin(origins = "*")

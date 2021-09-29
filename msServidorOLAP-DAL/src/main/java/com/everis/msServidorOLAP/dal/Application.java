@@ -1,4 +1,4 @@
-package com.everis.msdemo.dal;
+package com.everis.msServidorOLAP.dal;
 
 import java.util.Date;
 import java.util.TimeZone;

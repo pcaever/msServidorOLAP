@@ -1,4 +1,4 @@
-package com.everis.msdemo.dal.entity;
+package com.everis.msServidorOLAP.dal.entity;
 
 import java.util.Date;
 import java.util.List;

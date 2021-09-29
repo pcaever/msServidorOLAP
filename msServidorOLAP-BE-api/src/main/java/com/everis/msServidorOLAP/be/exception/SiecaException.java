@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.exception;
+package com.everis.msServidorOLAP.be.exception;
 
 public class SiecaException extends Exception {
 

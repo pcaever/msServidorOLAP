@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.dto;
+package com.everis.msServidorOLAP.be.dto;
 
 import lombok.Data;
 

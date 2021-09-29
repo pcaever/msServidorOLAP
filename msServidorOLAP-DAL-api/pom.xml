@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
     <groupId>com.everis</groupId>
-    <artifactId>msDemoDAL-api</artifactId>
+    <artifactId>msServidorOLAPDAL-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-	<name>msDemoDAL-api</name>
+	<name>msServidorOLAPDAL-api</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

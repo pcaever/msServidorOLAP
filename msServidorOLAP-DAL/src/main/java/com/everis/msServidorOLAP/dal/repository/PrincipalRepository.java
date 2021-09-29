@@ -1,11 +1,11 @@
-package com.everis.msdemo.dal.repository;
+package com.everis.msServidorOLAP.dal.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.everis.msdemo.dal.entity.Principal;
+import com.everis.msServidorOLAP.dal.entity.Principal;
 
 public interface PrincipalRepository extends JpaRepository<Principal, Integer> {
 	@Modifying

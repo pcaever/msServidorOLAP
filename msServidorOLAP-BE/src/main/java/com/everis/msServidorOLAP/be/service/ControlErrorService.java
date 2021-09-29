@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.service;
+package com.everis.msServidorOLAP.be.service;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -10,9 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import com.everis.msdemo.be.constant.ConstantMsg;
-import com.everis.msdemo.be.dto.MensajesErrorDTO;
-import com.everis.msdemo.be.dto.ResponseDTO;
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.MensajesErrorDTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
 
 @Service
 public class ControlErrorService {

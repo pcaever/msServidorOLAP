@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdicionalService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msServidorOLAPBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msServidorOLAP.be.service</a> &gt; <span class="el_source">AdicionalService.java</span></div><h1>AdicionalService.java</h1><pre class="source lang-java linenums">package com.everis.msServidorOLAP.be.service;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.MensajesErrorDTO;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
+
+@Service
+<span class="nc" id="L18">public class AdicionalService {</span>
+
+	@Value(&quot;${ws.backend.url.usersDAL}&quot;)
+	private String urlUsersDAL;
+
+	@Value(&quot;${ws.backend.url.parametrizacionDAL}&quot;)
+	private String urlParametrizacionDAL;
+
+	@Value(&quot;${ws.backend.url.trazabilidadDAL}&quot;)
+	private String urlTrazabilidadDAL;
+
+	@Value(&quot;${ws.backend.url.adjuntosBE}&quot;)
+	private String urlAdjuntosBE;
+
+	@Value(&quot;${ws.backend.get.countries.path}&quot;)
+	private String getCountriesPath;
+
+	@Value(&quot;${ws.backend.get.errores.codigo.path}&quot;)
+	private String getMensajeErrorPath;
+
+	@Value(&quot;${ws.backend.get.trazabilidad.estados.path}&quot;)
+	private String getEstadoFuncionalidad;
+
+	@Value(&quot;${ws.backend.get.ids.adjunto.path}&quot;)
+	private String getAdjuntoBase64Path;
+
+	@Value(&quot;${ws.backend.save.adjunto.path}&quot;)
+	private String saveAdjuntoBase64Path;
+
+	@Value(&quot;${ws.backend.get.parametros.tipo.path}&quot;)
+	private String getParametrosTipoPath;
+
+	
+<span class="nc" id="L51">	private RestTemplate restTemplate = new RestTemplate();</span>
+<span class="nc" id="L52">	private static Logger logger = LoggerFactory.getLogger(AdicionalService.class);</span>
+	
+	static final String FORMAT_URL_3 = &quot;%s%s%s&quot;;
+
+	public MensajesErrorDTO getMensajeError(String codigoError, List&lt;Object&gt; argumentos) {
+<span class="nc" id="L57">		MensajesErrorDTO mensajeError = getMensajeError(codigoError);</span>
+		
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if (argumentos != null) {</span>
+<span class="nc" id="L60">			mensajeError.setMensajeError(String.format(mensajeError.getMensajeError(), argumentos.toArray(new Object[0])));</span>
+		}
+		
+<span class="nc" id="L63">		return mensajeError;</span>
+	}
+
+	public MensajesErrorDTO getMensajeError(String codigoError) {
+<span class="nc" id="L67">		ResponseEntity&lt;MensajesErrorDTO&gt; mensajeError = restTemplate.exchange(</span>
+<span class="nc" id="L68">				String.format(FORMAT_URL_3, urlParametrizacionDAL, getMensajeErrorPath, codigoError), HttpMethod.GET, null,</span>
+				MensajesErrorDTO.class);
+		
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		if (mensajeError.getBody() != null) {</span>
+<span class="nc" id="L72">			return mensajeError.getBody();</span>
+		} else {
+<span class="nc" id="L74">			return new MensajesErrorDTO(ConstantMsg.CODE_OFFLINE, String.format(ConstantMsg.ERROR_OFFLINE, codigoError)); </span>
+		}
+	}
+
+	public SiecaException generarMensajeException(String codigoError) {
+<span class="nc" id="L79">		return generarMensajeException(codigoError, null);</span>
+	}
+
+	public SiecaException generarMensajeException(String codigoError, List&lt;Object&gt; argumentos) {
+<span class="nc" id="L83">		MensajesErrorDTO mensajeError = getMensajeError(codigoError);</span>
+		
+<span class="nc bnc" id="L85" title="All 2 branches missed.">		if (argumentos == null) {</span>
+<span class="nc" id="L86">			return new SiecaException(mensajeError.getCodigoError(), mensajeError.getMensajeError());</span>
+		} else {
+<span class="nc" id="L88">			return new SiecaException(mensajeError.getCodigoError(), String.format(mensajeError.getMensajeError(), argumentos.toArray(new Object[0])));</span>
+		}
+	}
+	
+	/*public List&lt;GenericDTO&gt; getCountries() {
+		ResponseEntity&lt;List&lt;GenericDTO&gt;&gt; listCountriesResponse = restTemplate.exchange(
+				String.format(&quot;%s%s&quot;, urlUsersDAL, getCountriesPath), HttpMethod.GET, null,
+				new ParameterizedTypeReference&lt;List&lt;GenericDTO&gt;&gt;() { });
+
+		List&lt;GenericDTO&gt; listCountries = listCountriesResponse.getBody();
+
+		if (listCountries != null &amp;&amp; !listCountries.isEmpty()) {
+			listCountries.forEach(foreachDT -&gt; foreachDT.setCode(foreachDT.getCode().replaceAll(&quot;([GU]{2})&quot;, &quot;GT&quot;)));
+			return listCountries;
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public List&lt;EstadosDTO&gt; getEstados(String codigoFuncionalidad) throws SiecaException {
+		ResponseEntity&lt;List&lt;EstadosDTO&gt;&gt; findAll = restTemplate.exchange(String.format(FORMAT_URL_3, urlTrazabilidadDAL, getEstadoFuncionalidad, codigoFuncionalidad),
+				HttpMethod.GET, null, new ParameterizedTypeReference&lt;List&lt;EstadosDTO&gt;&gt;() { });
+
+		List&lt;EstadosDTO&gt; estados = findAll.getBody();
+
+		if (estados != null) {
+			return estados;
+		} else {
+			throw generarMensajeException(ConstantMsg.CODE_440G, Arrays.asList(codigoFuncionalidad));
+		}
+	}
+	
+	public List&lt;ParametrosDTO&gt; getParametrosByTipo(String tipo) {
+		ResponseEntity&lt;List&lt;ParametrosDTO&gt;&gt; listParametrosResponse = restTemplate.exchange(
+				String.format(FORMAT_URL_3, urlParametrizacionDAL, getParametrosTipoPath, tipo), HttpMethod.GET, null,
+				new ParameterizedTypeReference&lt;List&lt;ParametrosDTO&gt;&gt;() {
+				});
+
+		List&lt;ParametrosDTO&gt; listParametros = listParametrosResponse.getBody();
+		if (listParametros != null &amp;&amp; !listParametros.isEmpty()) {
+			return listParametros;
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public List&lt;DocumentosDTO&gt; getAdjuntosBase64(String idsAdjuntos) throws SiecaException {
+		try {
+			ResponseEntity&lt;ResponseAdjuntoDTO&gt; findAdjuntos = restTemplate.exchange(
+					String.format(FORMAT_URL_3, urlAdjuntosBE, getAdjuntoBase64Path, idsAdjuntos),
+					HttpMethod.GET, null, new ParameterizedTypeReference&lt;ResponseAdjuntoDTO&gt;() { });
+	
+			ResponseAdjuntoDTO responseAdjuntoDTO = findAdjuntos.getBody();
+	
+			if (responseAdjuntoDTO != null &amp;&amp; responseAdjuntoDTO.getResponse() != null) {
+				return responseAdjuntoDTO.getResponse();
+			} else {
+				throw generarMensajeException(ConstantMsg.CODE_460);
+			}
+		} catch (Exception ex) {
+			generateUUID(ex);
+			throw generarMensajeException(ConstantMsg.CODE_460);
+		}
+	}
+
+	public List&lt;DocumentosDTO&gt; saveAdjuntosBase64(List&lt;DocumentosDTO&gt; listaAdjuntos) throws SiecaException {
+		List&lt;DocumentosDTO&gt; saveAdjuntosList = new ArrayList&lt;&gt;();
+		
+		try {
+			if (listaAdjuntos == null || listaAdjuntos.isEmpty()) {
+				return Collections.emptyList();
+			}
+	
+			for (DocumentosDTO adjuntosMSDTO : listaAdjuntos) {
+				HttpEntity&lt;DocumentosDTO&gt; entity = new HttpEntity&lt;&gt;(adjuntosMSDTO, setHeadersSave());
+				ResponseEntity&lt;ResponseSaveAdjuntoDTO&gt; adjuntoResponseDTO = restTemplate.exchange(
+						String.format(&quot;%s%s&quot;, urlAdjuntosBE, saveAdjuntoBase64Path), HttpMethod.POST, entity,
+						ResponseSaveAdjuntoDTO.class);
+	
+				ResponseSaveAdjuntoDTO responseAdjuntoDTO = adjuntoResponseDTO.getBody();
+	
+				if (responseAdjuntoDTO != null &amp;&amp; responseAdjuntoDTO.getResponse() != null) {
+					saveAdjuntosList.add(responseAdjuntoDTO.getResponse());
+				} else {
+					throw generarMensajeException(ConstantMsg.CODE_461);
+				}
+			}
+		} catch (Exception ex) {
+			generateUUID(ex);
+			throw generarMensajeException(ConstantMsg.CODE_461);
+		}
+
+		return saveAdjuntosList;
+	}
+
+	private HttpHeaders setHeadersSave() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;);
+		return headers;
+	}
+	
+	public ParametrosDTO setParametro(List&lt;ParametrosDTO&gt; parametros, ParametrosDTO entidadParametro, String variableMensaje) throws SiecaException {
+    	entidadParametro = getParametroByCodigo(parametros, entidadParametro.getCodigo());
+    	
+    	if (entidadParametro == null) {
+    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));
+    	}
+    	
+    	return entidadParametro;
+    }
+	
+	public GenericDTO setGeneric(List&lt;GenericDTO&gt; listaGeneric, GenericDTO entidadGeneric, String variableMensaje) throws SiecaException {
+    	entidadGeneric = getGenericByCodigo(listaGeneric, entidadGeneric.getCode());
+    	
+    	if (entidadGeneric == null) {
+    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));
+    	}
+    	
+    	return entidadGeneric;
+    }
+    
+    public EstadosDTO setEstado(List&lt;EstadosDTO&gt; listaEstados, EstadosDTO entidadEstado, String variableMensaje) throws SiecaException {
+    	entidadEstado = getEstadoByCodigo(listaEstados, entidadEstado.getCodigo());
+    	
+    	if (entidadEstado == null) {
+    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));
+    	}
+    	
+    	return entidadEstado;
+    }
+    
+    public ParametrosDTO getParametroByCodigo(List&lt;ParametrosDTO&gt; parametros, String codigo) {
+    	return parametros.stream().filter(filterParametro -&gt; filterParametro.getCodigo().equals(codigo)).findFirst().orElse(null);
+    }
+    
+    public GenericDTO getGenericByCodigo(List&lt;GenericDTO&gt; listGeneric, String code) {
+    	return listGeneric.stream().filter(filterParametro -&gt; filterParametro.getCode().equals(code)).findFirst().orElse(null);
+    }
+    
+    public EstadosDTO getEstadoByCodigo(List&lt;EstadosDTO&gt; listaEstados, String codigo) {
+    	return listaEstados.stream().filter(filterParametro -&gt; filterParametro.getCodigo().equals(codigo)).findFirst().orElse(null);
+    }
+    
+    public EstadosDTO getEstadoById(List&lt;EstadosDTO&gt; listaEstados, Integer idEstado) {
+    	return listaEstados.stream().filter(filterParametro -&gt; filterParametro.getId().equals(idEstado)).findFirst().orElse(null);
+    }
+    
+    public String generateUUID(Object exception) {
+		String uuidError = java.util.UUID.randomUUID().toString();
+		logger.info(uuidError, exception);
+		return uuidError;
+	}
+    
+    public void validateDTO(Object entityValidate) throws SiecaException, MethodArgumentNotValidException {
+		MethodParameter methodParameter = null;
+		try {
+			Method methodGetErrorValidation = this.getClass().getMethod(&quot;validateDTO&quot;, Object.class);
+			HandlerMethod handlerMethod = new HandlerMethod(this, methodGetErrorValidation);
+			methodParameter = handlerMethod.getReturnType();
+		} catch (NoSuchMethodException e) {
+			throw new SiecaException(&quot;SiecaException&quot;, &quot;Invalid method validateDTO(Object)&quot;);
+		}
+		
+		MethodArgumentNotValidException errorArgument = validateEntity(methodParameter, entityValidate, entityValidate.getClass().getName());
+		
+		if (!CollectionUtils.isEmpty(errorArgument.getBindingResult().getAllErrors())) {
+			throw errorArgument;
+		}
+	}
+
+	public MethodArgumentNotValidException validateEntity(MethodParameter methodParameter, Object entityValidate, String className) {
+		Map&lt;String, String&gt; mapErrors = new HashMap&lt;&gt;();
+		BindingResult errors = new MapBindingResult(mapErrors, className);
+		LocalValidatorFactoryBean validatorModels = new LocalValidatorFactoryBean();
+		validatorModels.afterPropertiesSet();
+		validatorModels.validate(entityValidate, errors);
+		validatorModels.close();
+		return new MethodArgumentNotValidException(methodParameter, errors);
+	}*/
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

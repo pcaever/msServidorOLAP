@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.service;
+package com.everis.msServidorOLAP.be.service;
 
 import java.util.List;
 
@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.everis.msdemo.be.constant.ConstantMsg;
-import com.everis.msdemo.be.dto.MensajesErrorDTO;
-import com.everis.msdemo.be.exception.SiecaException;
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.MensajesErrorDTO;
+import com.everis.msServidorOLAP.be.exception.SiecaException;
 
 @Service
 public class AdicionalService {

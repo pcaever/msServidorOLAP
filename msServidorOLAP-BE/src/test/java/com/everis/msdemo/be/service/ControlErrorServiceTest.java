@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.service;
+package com.everis.msServidorOLAP.be.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -19,7 +19,7 @@ import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.method.HandlerMethod;
 
-import com.everis.msdemo.be.dto.ResponseDTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
 
 /**
  * The Class ControlErrorServiceTest

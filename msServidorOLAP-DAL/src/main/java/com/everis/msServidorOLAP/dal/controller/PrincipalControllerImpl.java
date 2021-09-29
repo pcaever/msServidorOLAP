@@ -1,10 +1,10 @@
-package com.everis.msdemo.dal.controller;
+package com.everis.msServidorOLAP.dal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.everis.msdemo.dal.dto.PrincipalDTO;
-import com.everis.msdemo.dal.service.PrincipalService;
+import com.everis.msServidorOLAP.dal.dto.PrincipalDTO;
+import com.everis.msServidorOLAP.dal.service.PrincipalService;
 
 @RestController
 public class PrincipalControllerImpl implements PrincipalController {

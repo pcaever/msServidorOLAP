@@ -1,10 +1,10 @@
-package com.everis.msdemo.be.validation;
+package com.everis.msServidorOLAP.be.validation;
 
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.everis.msdemo.be.dto.GenericDTO;
+import com.everis.msServidorOLAP.be.dto.GenericDTO;
 
 public class GenericDTOConstraint implements ConstraintValidator<GenericDTOValidator, GenericDTO> {
 	public boolean isValid(GenericDTO value, ConstraintValidatorContext context) {

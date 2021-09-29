@@ -1,4 +1,4 @@
-package com.everis.msdemo.dal.dto;
+package com.everis.msServidorOLAP.dal.dto;
 
 import java.util.Date;
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ControlErrorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msServidorOLAPBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msServidorOLAP.be.service</a> &gt; <span class="el_source">ControlErrorService.java</span></div><h1>ControlErrorService.java</h1><pre class="source lang-java linenums">package com.everis.msServidorOLAP.be.service;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+
+import com.everis.msServidorOLAP.be.constant.ConstantMsg;
+import com.everis.msServidorOLAP.be.dto.MensajesErrorDTO;
+import com.everis.msServidorOLAP.be.dto.ResponseDTO;
+
+@Service
+<span class="nc" id="L18">public class ControlErrorService {</span>
+	@Autowired
+	private AdicionalService adicionalService;
+	
+	public ResponseDTO getErrorValidation(BindingResult ex) {
+<span class="nc" id="L23">		ResponseDTO responseDTO = new ResponseDTO();</span>
+
+<span class="nc" id="L25">		Optional&lt;ObjectError&gt; errorLongitud = ex.getAllErrors().stream()</span>
+<span class="nc" id="L26">			.filter(filterLength -&gt; </span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">				filterLength.getCode().equals(&quot;Length&quot;)</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;Digits&quot;) </span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;DecimalMax&quot;)).findFirst();</span>
+
+<span class="nc" id="L31">		Optional&lt;ObjectError&gt; invalidValue = ex.getAllErrors().stream()</span>
+<span class="nc" id="L32">			.filter(filterLength -&gt; </span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">				filterLength.getCode().equals(&quot;Pattern&quot;)</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;Min&quot;)</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;Max&quot;)</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;typeMismatch&quot;)).findFirst();</span>
+
+<span class="nc" id="L38">		Optional&lt;ObjectError&gt; errorCustom = ex.getAllErrors().stream()</span>
+<span class="nc" id="L39">			.filter(filterLength -&gt; </span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">				filterLength.getCode().equals(&quot;EstadosDTOValidator&quot;)</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;GenericDTOValidator&quot;)</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">				|| filterLength.getCode().equals(&quot;ParametrosDTOValidator&quot;)).findFirst();</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (errorLongitud.isPresent()) {</span>
+<span class="nc" id="L45">			MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400L, Arrays.asList(((FieldError) errorLongitud.get()).getField()));</span>
+<span class="nc" id="L46">			responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L47">			responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		} else if (invalidValue.isPresent()) {</span>
+<span class="nc" id="L49">			MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400F, Arrays.asList((((FieldError) invalidValue.get()).getField())));</span>
+<span class="nc" id="L50">			responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L51">			responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		} else if (errorCustom.isPresent()) {</span>
+<span class="nc" id="L53">			Optional&lt;ObjectError&gt; messageCustom = ex.getAllErrors().stream()</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">				.filter(filterLength -&gt; !StringUtils.isEmpty(filterLength.getDefaultMessage())</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">					&amp;&amp; filterLength.getDefaultMessage().contains(&quot;|&quot;)).findFirst();</span>
+			
+<span class="nc bnc" id="L57" title="All 2 branches missed.">			responseDTO = getErrorGenericDTO(messageCustom.isPresent() ? messageCustom.get() : errorCustom.get());</span>
+<span class="nc" id="L58">		}</span>
+		else {
+<span class="nc" id="L60">			Optional&lt;ObjectError&gt; errorObligatoriedad = ex.getAllErrors().stream().findFirst();</span>
+			
+<span class="nc" id="L62">			MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400O, </span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">					Arrays.asList(errorObligatoriedad.isPresent() ? ((FieldError) errorObligatoriedad.get()).getField() : &quot;missingField&quot;));</span>
+<span class="nc" id="L64">			responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L65">			responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+		}
+
+<span class="nc" id="L68">		return responseDTO;</span>
+	}
+
+	public ResponseDTO getErrorGenericDTO(ObjectError objectError) {
+<span class="nc" id="L72">		ResponseDTO responseDTO = new ResponseDTO();</span>
+
+<span class="nc" id="L74">		FieldError fieldError = (FieldError) objectError;</span>
+<span class="nc" id="L75">		String errorMessage = fieldError.getDefaultMessage();</span>
+
+<span class="nc bnc" id="L77" title="All 4 branches missed.">		if (errorMessage != null &amp;&amp; !errorMessage.contains(&quot;|&quot;)) {</span>
+<span class="nc" id="L78">			MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400O, Arrays.asList(fieldError.getField()));</span>
+<span class="nc" id="L79">			responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L80">			responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L81">		} else {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			String messageError = fieldError.getDefaultMessage() == null ? &quot;|&quot; : fieldError.getDefaultMessage();</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">			String[] splitError = messageError == null ? &quot;|&quot;.split(&quot;\\|&quot;) : messageError.split(&quot;\\|&quot;);</span>
+
+<span class="nc bnc" id="L85" title="All 2 branches missed.">			if (splitError[0].equals(&quot;Length&quot;)) {</span>
+<span class="nc" id="L86">				MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400L, </span>
+<span class="nc" id="L87">						Arrays.asList(String.format(&quot;%s%s&quot;, fieldError.getField(), splitError[1])));</span>
+<span class="nc" id="L88">				responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L89">				responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L90">			} else {</span>
+<span class="nc" id="L91">				MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400O, </span>
+<span class="nc" id="L92">						Arrays.asList(String.format(&quot;%s%s&quot;, fieldError.getField(), splitError[1])));</span>
+<span class="nc" id="L93">				responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L94">				responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+			}
+		}
+
+<span class="nc" id="L98">		return responseDTO;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.constant;
+package com.everis.msServidorOLAP.be.constant;
 
 public class ConstantMsg {
 

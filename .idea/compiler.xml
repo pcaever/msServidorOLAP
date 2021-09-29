@@ -8,9 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="msServidorOLAP-BE-api" />
+        <module name="msServidorOLAPDAL-api" />
+        <module name="msServidorOLAPBE-api" />
         <module name="msServidorOLAP-DAL-api" />
       </profile>
-      <profile name="Annotation profile for msDemoBE" enabled="true">
+      <profile name="Annotation profile for msServidorOLAPDAL" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -30,23 +32,41 @@
           <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/4.0.3.RELEASE/spring-context-4.0.3.RELEASE.jar" />
           <entry name="$MAVEN_REPOSITORY$/joda-time/joda-time/2.9/joda-time-2.9.jar" />
         </processorPath>
-        <module name="msServidorOLAP-BE" />
         <module name="msServidorOLAP-DAL" />
+        <module name="msServidorOLAP-BE" />
+        <module name="msServidorOLAPBE" />
+        <module name="msServidorOLAPDAL" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="msDemoBE" target="1.8" />
+      <module name="msDemoBE-api" target="1.8" />
+      <module name="msDemoDAL" target="1.8" />
+      <module name="msDemoDAL-api" target="1.8" />
       <module name="msServidorOLAP-BE" target="1.8" />
       <module name="msServidorOLAP-BE-api" target="1.8" />
       <module name="msServidorOLAP-DAL" target="1.8" />
       <module name="msServidorOLAP-DAL-api" target="1.8" />
+      <module name="msServidorOLAPBE" target="1.8" />
+      <module name="msServidorOLAPBE-api" target="1.8" />
+      <module name="msServidorOLAPDAL" target="1.8" />
+      <module name="msServidorOLAPDAL-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="msDemoBE" options="-parameters" />
+      <module name="msDemoBE-api" options="-parameters" />
+      <module name="msDemoDAL" options="-parameters" />
+      <module name="msDemoDAL-api" options="-parameters" />
       <module name="msServidorOLAP-BE" options="-parameters" />
       <module name="msServidorOLAP-BE-api" options="-parameters" />
       <module name="msServidorOLAP-DAL" options="-parameters" />
       <module name="msServidorOLAP-DAL-api" options="-parameters" />
+      <module name="msServidorOLAPBE" options="-parameters" />
+      <module name="msServidorOLAPBE-api" options="-parameters" />
+      <module name="msServidorOLAPDAL" options="-parameters" />
+      <module name="msServidorOLAPDAL-api" options="-parameters" />
     </option>
   </component>
 </project>

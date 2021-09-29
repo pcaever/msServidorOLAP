@@ -1,3 +1,3 @@
-com/everis/msdemo/dal/dto/PrincipalDTO.class
-com/everis/msdemo/dal/dto/AdjuntoDTO.class
-com/everis/msdemo/dal/controller/PrincipalController.class
+com/everis/msServidorOLAP/dal/dto/AdjuntoDTO.class
+com/everis/msServidorOLAP/dal/controller/PrincipalController.class
+com/everis/msServidorOLAP/dal/dto/PrincipalDTO.class

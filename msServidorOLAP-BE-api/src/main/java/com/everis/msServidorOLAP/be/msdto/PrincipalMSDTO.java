@@ -1,4 +1,4 @@
-package com.everis.msdemo.be.msdto;
+package com.everis.msServidorOLAP.be.msdto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -7,8 +7,8 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.everis.msdemo.be.dto.GenericDTO;
-import com.everis.msdemo.be.validation.GenericDTOValidator;
+import com.everis.msServidorOLAP.be.dto.GenericDTO;
+import com.everis.msServidorOLAP.be.validation.GenericDTOValidator;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
