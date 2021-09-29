@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdicionalService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msDemoBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msdemo.be.service</a> &gt; <span class="el_source">AdicionalService.java</span></div><h1>AdicionalService.java</h1><pre class="source lang-java linenums">package com.everis.msdemo.be.service;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.MethodParameter;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.MapBindingResult;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.method.HandlerMethod;
+
+import com.everis.msdemo.be.constant.ConstantMsg;
+import com.everis.msdemo.be.dto.DocumentosDTO;
+import com.everis.msdemo.be.dto.EstadosDTO;
+import com.everis.msdemo.be.dto.GenericDTO;
+import com.everis.msdemo.be.dto.MensajesErrorDTO;
+import com.everis.msdemo.be.dto.ParametrosDTO;
+import com.everis.msdemo.be.dto.ResponseAdjuntoDTO;
+import com.everis.msdemo.be.dto.ResponseSaveAdjuntoDTO;
+import com.everis.msdemo.be.exception.SiecaException;
+
+@Service
+<span class="fc" id="L40">public class AdicionalService {</span>
+	@Value(&quot;${ws.backend.url.usersDAL}&quot;)
+	private String urlUsersDAL;
+
+	@Value(&quot;${ws.backend.url.parametrizacionDAL}&quot;)
+	private String urlParametrizacionDAL;
+	
+	@Value(&quot;${ws.backend.url.trazabilidadDAL}&quot;)
+	private String urlTrazabilidadDAL;
+
+	@Value(&quot;${ws.backend.url.adjuntosBE}&quot;)
+	private String urlAdjuntosBE;
+
+	@Value(&quot;${ws.backend.get.countries.path}&quot;)
+	private String getCountriesPath;
+	
+	@Value(&quot;${ws.backend.get.errores.codigo.path}&quot;)
+	private String getMensajeErrorPath;
+
+	@Value(&quot;${ws.backend.get.trazabilidad.estados.path}&quot;)
+	private String getEstadoFuncionalidad;
+
+	@Value(&quot;${ws.backend.get.ids.adjunto.path}&quot;)
+	private String getAdjuntoBase64Path;
+
+	@Value(&quot;${ws.backend.save.adjunto.path}&quot;)
+	private String saveAdjuntoBase64Path;
+
+	@Value(&quot;${ws.backend.get.parametros.tipo.path}&quot;)
+	private String getParametrosTipoPath;
+	
+<span class="fc" id="L71">	private RestTemplate restTemplate = new RestTemplate();</span>
+<span class="fc" id="L72">	private static Logger logger = LoggerFactory.getLogger(AdicionalService.class);</span>
+	
+	static final String FORMAT_URL_3 = &quot;%s%s%s&quot;;
+
+	public MensajesErrorDTO getMensajeError(String codigoError, List&lt;Object&gt; argumentos) {
+<span class="nc" id="L77">		MensajesErrorDTO mensajeError = getMensajeError(codigoError);</span>
+		
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (argumentos != null) {</span>
+<span class="nc" id="L80">			mensajeError.setMensajeError(String.format(mensajeError.getMensajeError(), argumentos.toArray(new Object[0])));</span>
+		}
+		
+<span class="nc" id="L83">		return mensajeError;</span>
+	}
+	
+	public MensajesErrorDTO getMensajeError(String codigoError) {
+<span class="fc" id="L87">		ResponseEntity&lt;MensajesErrorDTO&gt; mensajeError = restTemplate.exchange(</span>
+<span class="fc" id="L88">				String.format(FORMAT_URL_3, urlParametrizacionDAL, getMensajeErrorPath, codigoError), HttpMethod.GET, null,</span>
+				MensajesErrorDTO.class);
+		
+<span class="nc bnc" id="L91" title="All 2 branches missed.">		if (mensajeError.getBody() != null) {</span>
+<span class="nc" id="L92">			return mensajeError.getBody();</span>
+		} else {
+<span class="nc" id="L94">			return new MensajesErrorDTO(ConstantMsg.CODE_OFFLINE, String.format(ConstantMsg.ERROR_OFFLINE, codigoError)); </span>
+		}
+	}
+	
+	public SiecaException generarMensajeException(String codigoError) {
+<span class="nc" id="L99">		return generarMensajeException(codigoError, null);</span>
+	}
+	
+	public SiecaException generarMensajeException(String codigoError, List&lt;Object&gt; argumentos) {
+<span class="nc" id="L103">		MensajesErrorDTO mensajeError = getMensajeError(codigoError);</span>
+		
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		if (argumentos == null) {</span>
+<span class="nc" id="L106">			return new SiecaException(mensajeError.getCodigoError(), mensajeError.getMensajeError());</span>
+		} else {
+<span class="nc" id="L108">			return new SiecaException(mensajeError.getCodigoError(), String.format(mensajeError.getMensajeError(), argumentos.toArray(new Object[0])));</span>
+		}
+	}
+	
+	public List&lt;GenericDTO&gt; getCountries() {
+<span class="fc" id="L113">		ResponseEntity&lt;List&lt;GenericDTO&gt;&gt; listCountriesResponse = restTemplate.exchange(</span>
+<span class="fc" id="L114">				String.format(&quot;%s%s&quot;, urlUsersDAL, getCountriesPath), HttpMethod.GET, null,</span>
+<span class="fc" id="L115">				new ParameterizedTypeReference&lt;List&lt;GenericDTO&gt;&gt;() { });</span>
+
+<span class="fc" id="L117">		List&lt;GenericDTO&gt; listCountries = listCountriesResponse.getBody();</span>
+
+<span class="pc bpc" id="L119" title="1 of 4 branches missed.">		if (listCountries != null &amp;&amp; !listCountries.isEmpty()) {</span>
+<span class="fc" id="L120">			listCountries.forEach(foreachDT -&gt; foreachDT.setCode(foreachDT.getCode().replaceAll(&quot;([GU]{2})&quot;, &quot;GT&quot;)));</span>
+<span class="fc" id="L121">			return listCountries;</span>
+		} else {
+<span class="fc" id="L123">			return Collections.emptyList();</span>
+		}
+	}
+
+	public List&lt;EstadosDTO&gt; getEstados(String codigoFuncionalidad) throws SiecaException {
+<span class="nc" id="L128">		ResponseEntity&lt;List&lt;EstadosDTO&gt;&gt; findAll = restTemplate.exchange(String.format(FORMAT_URL_3, urlTrazabilidadDAL, getEstadoFuncionalidad, codigoFuncionalidad),</span>
+<span class="nc" id="L129">				HttpMethod.GET, null, new ParameterizedTypeReference&lt;List&lt;EstadosDTO&gt;&gt;() { });</span>
+
+<span class="nc" id="L131">		List&lt;EstadosDTO&gt; estados = findAll.getBody();</span>
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (estados != null) {</span>
+<span class="nc" id="L134">			return estados;</span>
+		} else {
+<span class="nc" id="L136">			throw generarMensajeException(ConstantMsg.CODE_440G, Arrays.asList(codigoFuncionalidad));</span>
+		}
+	}
+	
+	public List&lt;ParametrosDTO&gt; getParametrosByTipo(String tipo) {
+<span class="nc" id="L141">		ResponseEntity&lt;List&lt;ParametrosDTO&gt;&gt; listParametrosResponse = restTemplate.exchange(</span>
+<span class="nc" id="L142">				String.format(FORMAT_URL_3, urlParametrizacionDAL, getParametrosTipoPath, tipo), HttpMethod.GET, null,</span>
+<span class="nc" id="L143">				new ParameterizedTypeReference&lt;List&lt;ParametrosDTO&gt;&gt;() {</span>
+				});
+
+<span class="nc" id="L146">		List&lt;ParametrosDTO&gt; listParametros = listParametrosResponse.getBody();</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">		if (listParametros != null &amp;&amp; !listParametros.isEmpty()) {</span>
+<span class="nc" id="L148">			return listParametros;</span>
+		} else {
+<span class="nc" id="L150">			return Collections.emptyList();</span>
+		}
+	}
+
+	public List&lt;DocumentosDTO&gt; getAdjuntosBase64(String idsAdjuntos) throws SiecaException {
+		try {
+<span class="fc" id="L156">			ResponseEntity&lt;ResponseAdjuntoDTO&gt; findAdjuntos = restTemplate.exchange(</span>
+<span class="fc" id="L157">					String.format(FORMAT_URL_3, urlAdjuntosBE, getAdjuntoBase64Path, idsAdjuntos),</span>
+<span class="fc" id="L158">					HttpMethod.GET, null, new ParameterizedTypeReference&lt;ResponseAdjuntoDTO&gt;() { });</span>
+	
+<span class="fc" id="L160">			ResponseAdjuntoDTO responseAdjuntoDTO = findAdjuntos.getBody();</span>
+	
+<span class="pc bpc" id="L162" title="1 of 4 branches missed.">			if (responseAdjuntoDTO != null &amp;&amp; responseAdjuntoDTO.getResponse() != null) {</span>
+<span class="fc" id="L163">				return responseAdjuntoDTO.getResponse();</span>
+			} else {
+<span class="nc" id="L165">				throw generarMensajeException(ConstantMsg.CODE_460);</span>
+			}
+<span class="fc" id="L167">		} catch (Exception ex) {</span>
+<span class="fc" id="L168">			generateUUID(ex);</span>
+<span class="nc" id="L169">			throw generarMensajeException(ConstantMsg.CODE_460);</span>
+		}
+	}
+
+	public List&lt;DocumentosDTO&gt; saveAdjuntosBase64(List&lt;DocumentosDTO&gt; listaAdjuntos) throws SiecaException {
+<span class="fc" id="L174">		List&lt;DocumentosDTO&gt; saveAdjuntosList = new ArrayList&lt;&gt;();</span>
+		
+		try {
+<span class="pc bpc" id="L177" title="2 of 4 branches missed.">			if (listaAdjuntos == null || listaAdjuntos.isEmpty()) {</span>
+<span class="nc" id="L178">				return Collections.emptyList();</span>
+			}
+	
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">			for (DocumentosDTO adjuntosMSDTO : listaAdjuntos) {</span>
+<span class="fc" id="L182">				HttpEntity&lt;DocumentosDTO&gt; entity = new HttpEntity&lt;&gt;(adjuntosMSDTO, setHeadersSave());</span>
+<span class="fc" id="L183">				ResponseEntity&lt;ResponseSaveAdjuntoDTO&gt; adjuntoResponseDTO = restTemplate.exchange(</span>
+<span class="fc" id="L184">						String.format(&quot;%s%s&quot;, urlAdjuntosBE, saveAdjuntoBase64Path), HttpMethod.POST, entity,</span>
+						ResponseSaveAdjuntoDTO.class);
+	
+<span class="nc" id="L187">				ResponseSaveAdjuntoDTO responseAdjuntoDTO = adjuntoResponseDTO.getBody();</span>
+	
+<span class="nc bnc" id="L189" title="All 4 branches missed.">				if (responseAdjuntoDTO != null &amp;&amp; responseAdjuntoDTO.getResponse() != null) {</span>
+<span class="nc" id="L190">					saveAdjuntosList.add(responseAdjuntoDTO.getResponse());</span>
+				} else {
+<span class="nc" id="L192">					throw generarMensajeException(ConstantMsg.CODE_461);</span>
+				}
+<span class="nc" id="L194">			}</span>
+<span class="fc" id="L195">		} catch (Exception ex) {</span>
+<span class="fc" id="L196">			generateUUID(ex);</span>
+<span class="nc" id="L197">			throw generarMensajeException(ConstantMsg.CODE_461);</span>
+<span class="nc" id="L198">		}</span>
+
+<span class="nc" id="L200">		return saveAdjuntosList;</span>
+	}
+
+	private HttpHeaders setHeadersSave() {
+<span class="fc" id="L204">		HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L205">		headers.set(&quot;Content-Type&quot;, &quot;application/json; charset=UTF-8&quot;);</span>
+<span class="fc" id="L206">		return headers;</span>
+	}
+	
+	public ParametrosDTO setParametro(List&lt;ParametrosDTO&gt; parametros, ParametrosDTO entidadParametro, String variableMensaje) throws SiecaException {
+<span class="nc" id="L210">    	entidadParametro = getParametroByCodigo(parametros, entidadParametro.getCodigo());</span>
+    	
+<span class="nc bnc" id="L212" title="All 2 branches missed.">    	if (entidadParametro == null) {</span>
+<span class="nc" id="L213">    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));</span>
+    	}
+    	
+<span class="nc" id="L216">    	return entidadParametro;</span>
+    }
+	
+	public GenericDTO setGeneric(List&lt;GenericDTO&gt; listaGeneric, GenericDTO entidadGeneric, String variableMensaje) throws SiecaException {
+<span class="nc" id="L220">    	entidadGeneric = getGenericByCodigo(listaGeneric, entidadGeneric.getCode());</span>
+    	
+<span class="nc bnc" id="L222" title="All 2 branches missed.">    	if (entidadGeneric == null) {</span>
+<span class="nc" id="L223">    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));</span>
+    	}
+    	
+<span class="nc" id="L226">    	return entidadGeneric;</span>
+    }
+    
+    public EstadosDTO setEstado(List&lt;EstadosDTO&gt; listaEstados, EstadosDTO entidadEstado, String variableMensaje) throws SiecaException {
+<span class="nc" id="L230">    	entidadEstado = getEstadoByCodigo(listaEstados, entidadEstado.getCodigo());</span>
+    	
+<span class="nc bnc" id="L232" title="All 2 branches missed.">    	if (entidadEstado == null) {</span>
+<span class="nc" id="L233">    		throw generarMensajeException(ConstantMsg.CODE_481, Arrays.asList(variableMensaje));</span>
+    	}
+    	
+<span class="nc" id="L236">    	return entidadEstado;</span>
+    }
+    
+    public ParametrosDTO getParametroByCodigo(List&lt;ParametrosDTO&gt; parametros, String codigo) {
+<span class="nc" id="L240">    	return parametros.stream().filter(filterParametro -&gt; filterParametro.getCodigo().equals(codigo)).findFirst().orElse(null);</span>
+    }
+    
+    public GenericDTO getGenericByCodigo(List&lt;GenericDTO&gt; listGeneric, String code) {
+<span class="nc" id="L244">    	return listGeneric.stream().filter(filterParametro -&gt; filterParametro.getCode().equals(code)).findFirst().orElse(null);</span>
+    }
+    
+    public EstadosDTO getEstadoByCodigo(List&lt;EstadosDTO&gt; listaEstados, String codigo) {
+<span class="nc" id="L248">    	return listaEstados.stream().filter(filterParametro -&gt; filterParametro.getCodigo().equals(codigo)).findFirst().orElse(null);</span>
+    }
+    
+    public EstadosDTO getEstadoById(List&lt;EstadosDTO&gt; listaEstados, Integer idEstado) {
+<span class="nc" id="L252">    	return listaEstados.stream().filter(filterParametro -&gt; filterParametro.getId().equals(idEstado)).findFirst().orElse(null);</span>
+    }
+    
+    public String generateUUID(Object exception) {
+<span class="fc" id="L256">		String uuidError = java.util.UUID.randomUUID().toString();</span>
+<span class="fc" id="L257">		logger.info(uuidError, exception);</span>
+<span class="fc" id="L258">		return uuidError;</span>
+	}
+    
+    public void validateDTO(Object entityValidate) throws SiecaException, MethodArgumentNotValidException {
+<span class="nc" id="L262">		MethodParameter methodParameter = null;</span>
+		try {
+<span class="nc" id="L264">			Method methodGetErrorValidation = this.getClass().getMethod(&quot;validateDTO&quot;, Object.class);</span>
+<span class="nc" id="L265">			HandlerMethod handlerMethod = new HandlerMethod(this, methodGetErrorValidation);</span>
+<span class="nc" id="L266">			methodParameter = handlerMethod.getReturnType();</span>
+<span class="nc" id="L267">		} catch (NoSuchMethodException e) {</span>
+<span class="nc" id="L268">			throw new SiecaException(&quot;SiecaException&quot;, &quot;Invalid method validateDTO(Object)&quot;);</span>
+<span class="nc" id="L269">		}</span>
+		
+<span class="nc" id="L271">		MethodArgumentNotValidException errorArgument = validateEntity(methodParameter, entityValidate, entityValidate.getClass().getName());</span>
+		
+<span class="nc bnc" id="L273" title="All 2 branches missed.">		if (!CollectionUtils.isEmpty(errorArgument.getBindingResult().getAllErrors())) {</span>
+<span class="nc" id="L274">			throw errorArgument;</span>
+		}
+<span class="nc" id="L276">	}</span>
+
+	public MethodArgumentNotValidException validateEntity(MethodParameter methodParameter, Object entityValidate, String className) {
+<span class="nc" id="L279">		Map&lt;String, String&gt; mapErrors = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L280">		BindingResult errors = new MapBindingResult(mapErrors, className);</span>
+<span class="nc" id="L281">		LocalValidatorFactoryBean validatorModels = new LocalValidatorFactoryBean();</span>
+<span class="nc" id="L282">		validatorModels.afterPropertiesSet();</span>
+<span class="nc" id="L283">		validatorModels.validate(entityValidate, errors);</span>
+<span class="nc" id="L284">		validatorModels.close();</span>
+<span class="nc" id="L285">		return new MethodArgumentNotValidException(methodParameter, errors);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

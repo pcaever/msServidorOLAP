@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ServidorOLAP.iml" filepath="$PROJECT_DIR$/.idea/ServidorOLAP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/msDemoBE/msServidorOLAP-BE.iml" filepath="$PROJECT_DIR$/msDemoBE/msServidorOLAP-BE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/msDemoBE-api/msServidorOLAP-BE-api.iml" filepath="$PROJECT_DIR$/msDemoBE-api/msServidorOLAP-BE-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/msDemoDAL/msServidorOLAP-DAL.iml" filepath="$PROJECT_DIR$/msDemoDAL/msServidorOLAP-DAL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/msDemoDAL-api/msServidorOLAP-DAL-api.iml" filepath="$PROJECT_DIR$/msDemoDAL-api/msServidorOLAP-DAL-api.iml" />
+    </modules>
+  </component>
+</project>

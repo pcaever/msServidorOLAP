@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrincipalMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msDemoBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msdemo.be.mapper</a> &gt; <span class="el_source">PrincipalMapperImpl.java</span></div><h1>PrincipalMapperImpl.java</h1><pre class="source lang-java linenums">package com.everis.msdemo.be.mapper;
+
+import com.everis.msdemo.be.dto.AdjuntoDTO;
+import com.everis.msdemo.be.dto.GenericDTO;
+import com.everis.msdemo.be.dto.PrincipalDTO;
+import com.everis.msdemo.be.msdto.PrincipalMSDTO;
+import com.everis.msdemo.be.msdto.PrincipalResponseMSDTO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Generated;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2021-09-17T11:59:10-0500&quot;,
+    comments = &quot;version: 1.3.1.Final, compiler: javac, environment: Java 11.0.11 (Ubuntu)&quot;
+)
+<span class="nc" id="L17">public class PrincipalMapperImpl implements PrincipalMapper {</span>
+
+    @Override
+    public PrincipalDTO principalMSDTOToPrincipalDTO(PrincipalMSDTO principalMainMSDTO, List&lt;AdjuntoDTO&gt; adjuntos, Integer usuario) {
+<span class="nc bnc" id="L21" title="All 6 branches missed.">        if ( principalMainMSDTO == null &amp;&amp; adjuntos == null &amp;&amp; usuario == null ) {</span>
+<span class="nc" id="L22">            return null;</span>
+        }
+
+<span class="nc" id="L25">        PrincipalDTO principalDTO = new PrincipalDTO();</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if ( principalMainMSDTO != null ) {</span>
+<span class="nc" id="L28">            principalDTO.setPaisId( principalMainMSDTOPaisId( principalMainMSDTO ) );</span>
+<span class="nc" id="L29">            principalDTO.setNombre( principalMainMSDTO.getNombre() );</span>
+<span class="nc" id="L30">            principalDTO.setDireccion( principalMainMSDTO.getDireccion() );</span>
+<span class="nc" id="L31">            principalDTO.setTelefono( principalMainMSDTO.getTelefono() );</span>
+<span class="nc" id="L32">            principalDTO.setObservaciones( principalMainMSDTO.getObservaciones() );</span>
+        }
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if ( adjuntos != null ) {</span>
+<span class="nc" id="L35">            List&lt;AdjuntoDTO&gt; list = adjuntos;</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if ( list != null ) {</span>
+<span class="nc" id="L37">                principalDTO.setAdjuntos( new ArrayList&lt;AdjuntoDTO&gt;( list ) );</span>
+            }
+        }
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if ( usuario != null ) {</span>
+<span class="nc" id="L41">            principalDTO.setUsuarioCrea( usuario );</span>
+<span class="nc" id="L42">            principalDTO.setUsuarioActualiza( usuario );</span>
+        }
+
+<span class="nc" id="L45">        return principalDTO;</span>
+    }
+
+    @Override
+    public PrincipalResponseMSDTO principalMSDTOToPrincipalResponseMSDTO(PrincipalMSDTO principal) {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if ( principal == null ) {</span>
+<span class="nc" id="L51">            return null;</span>
+        }
+
+<span class="nc" id="L54">        PrincipalResponseMSDTO principalResponseMSDTO = new PrincipalResponseMSDTO();</span>
+
+<span class="nc" id="L56">        principalResponseMSDTO.setPrincipal( principal );</span>
+
+<span class="nc" id="L58">        return principalResponseMSDTO;</span>
+    }
+
+    private Integer principalMainMSDTOPaisId(PrincipalMSDTO principalMSDTO) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if ( principalMSDTO == null ) {</span>
+<span class="nc" id="L63">            return null;</span>
+        }
+<span class="nc" id="L65">        GenericDTO pais = principalMSDTO.getPais();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if ( pais == null ) {</span>
+<span class="nc" id="L67">            return null;</span>
+        }
+<span class="nc" id="L69">        Integer id = pais.getId();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if ( id == null ) {</span>
+<span class="nc" id="L71">            return null;</span>
+        }
+<span class="nc" id="L73">        return id;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

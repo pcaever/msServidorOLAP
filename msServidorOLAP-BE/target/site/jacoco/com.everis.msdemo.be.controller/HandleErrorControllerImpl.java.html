@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HandleErrorControllerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msDemoBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msdemo.be.controller</a> &gt; <span class="el_source">HandleErrorControllerImpl.java</span></div><h1>HandleErrorControllerImpl.java</h1><pre class="source lang-java linenums">package com.everis.msdemo.be.controller;
+
+import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import com.everis.msdemo.be.constant.ConstantMsg;
+import com.everis.msdemo.be.dto.MensajesErrorDTO;
+import com.everis.msdemo.be.dto.ResponseDTO;
+import com.everis.msdemo.be.exception.SiecaException;
+import com.everis.msdemo.be.service.AdicionalService;
+import com.everis.msdemo.be.service.ControlErrorService;
+
+@RestController
+@CrossOrigin(origins = &quot;*&quot;)
+<span class="nc" id="L28">public class HandleErrorControllerImpl {</span>
+	@Autowired
+	private ControlErrorService controlErrorService;
+
+	@Autowired
+	private AdicionalService adicionalService;
+	
+<span class="nc" id="L35">	private static Logger logger = LoggerFactory.getLogger(HandleErrorControllerImpl.class);</span>
+
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(Exception.class)
+	public ResponseDTO handleValidationExceptions(Exception ex) {
+<span class="nc" id="L40">		ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L41">		MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_500);</span>
+<span class="nc" id="L42">		responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L43">		responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L44">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L45">		return responseDTO;</span>
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseDTO handleJSONError(HttpMessageNotReadableException ex) {
+<span class="nc" id="L51">		ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L52">		MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400J, Arrays.asList(ex.getMessage()));</span>
+<span class="nc" id="L53">		responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L54">		responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L55">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L56">		return responseDTO;</span>
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(SiecaException.class)
+	public ResponseDTO handleCustomValidationExceptionsSieca(SiecaException ex) {
+<span class="nc" id="L62">		ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L63">		responseDTO.getError().setCodError(ex.getCodError());</span>
+<span class="nc" id="L64">		responseDTO.getError().setMessError(ex.getMessage());</span>
+<span class="nc" id="L65">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L66">		return responseDTO;</span>
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseDTO handleValidationExceptions(MethodArgumentNotValidException ex) {
+<span class="nc" id="L72">		ResponseDTO responseDTO = controlErrorService.getErrorValidation(ex.getBindingResult()); </span>
+<span class="nc" id="L73">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L74">		return responseDTO;</span>
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(BindException.class)
+	public ResponseDTO handleValidationExceptions(BindException ex) {
+<span class="nc" id="L80">		ResponseDTO responseDTO = controlErrorService.getErrorValidation(ex.getBindingResult()); </span>
+<span class="nc" id="L81">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L82">		return responseDTO;</span>
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MissingRequestHeaderException.class)
+	public ResponseDTO handleValidationExceptions(MissingRequestHeaderException ex) {
+<span class="nc" id="L88">		ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L89">		MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400O, Arrays.asList(ex.getHeaderName()));</span>
+<span class="nc" id="L90">		responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L91">		responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L92">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L93">		return responseDTO;</span>
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public ResponseDTO handleValidationExceptions(MethodArgumentTypeMismatchException ex) {
+<span class="nc" id="L99">		ResponseDTO responseDTO = new ResponseDTO();</span>
+<span class="nc" id="L100">		MensajesErrorDTO mensajeError = adicionalService.getMensajeError(ConstantMsg.CODE_400F, Arrays.asList(ex.getName()));</span>
+<span class="nc" id="L101">		responseDTO.getError().setCodError(mensajeError.getCodigoError());</span>
+<span class="nc" id="L102">		responseDTO.getError().setMessError(mensajeError.getMensajeError());</span>
+<span class="nc" id="L103">		responseDTO.getError().setUuidError(generateUUID(ex));</span>
+<span class="nc" id="L104">		return responseDTO;</span>
+	}
+	
+	public String generateUUID(Object exception) {
+<span class="nc" id="L108">		String uuidError = java.util.UUID.randomUUID().toString();</span>
+<span class="nc" id="L109">		logger.info(uuidError, exception);</span>
+<span class="nc" id="L110">		return uuidError;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

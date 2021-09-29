@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrincipalService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">msDemoBE</a> &gt; <a href="index.source.html" class="el_package">com.everis.msdemo.be.service</a> &gt; <span class="el_source">PrincipalService.java</span></div><h1>PrincipalService.java</h1><pre class="source lang-java linenums">package com.everis.msdemo.be.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.client.RestTemplate;
+
+import com.everis.msdemo.be.dto.AdjuntoDTO;
+import com.everis.msdemo.be.dto.DocumentosDTO;
+import com.everis.msdemo.be.dto.GenericDTO;
+import com.everis.msdemo.be.dto.PrincipalDTO;
+import com.everis.msdemo.be.dto.UserDTO;
+import com.everis.msdemo.be.exception.SiecaException;
+import com.everis.msdemo.be.mapper.AdjuntosMapper;
+import com.everis.msdemo.be.mapper.PrincipalMapper;
+import com.everis.msdemo.be.msdto.PrincipalMSDTO;
+import com.everis.msdemo.be.msdto.PrincipalMainMSDTO;
+import com.everis.msdemo.be.msdto.PrincipalResponseMSDTO;
+
+@Service
+<span class="nc" id="L29">public class PrincipalService {</span>
+	@Value(&quot;${ws.backend.url}&quot;)
+	private String url;
+	
+	@Value(&quot;${ws.backend.save.principal.path}&quot;)
+	private String principalSavePath;
+	
+	public static final String HEADER_CONTENTTYPE = &quot;Content-Type&quot;;
+	public static final String HEADER_APPLICATIONJSON = &quot;application/json; charset=UTF-8&quot;;
+	
+<span class="nc" id="L39">	private RestTemplate restTemplate = new RestTemplate();</span>
+	
+	@Autowired
+	private AdicionalService adicionalService;
+    
+	public PrincipalResponseMSDTO saveDemo(Integer usuarioCreacion, PrincipalMainMSDTO principalMainMSDTO) throws SiecaException {
+<span class="nc" id="L45">		validateValuesPrincipal(principalMainMSDTO.getPrincipal());</span>
+<span class="nc" id="L46">		List&lt;AdjuntoDTO&gt; adjuntos = saveAdjunto(principalMainMSDTO, usuarioCreacion);</span>
+<span class="nc" id="L47">		savePrincipal(PrincipalMapper.INSTANCE.principalMSDTOToPrincipalDTO(principalMainMSDTO.getPrincipal(), adjuntos, usuarioCreacion));</span>
+<span class="nc" id="L48">		return PrincipalMapper.INSTANCE.principalMSDTOToPrincipalResponseMSDTO(principalMainMSDTO.getPrincipal());</span>
+	}
+	
+	public void validateValuesPrincipal(PrincipalMSDTO principalMSDTO) throws SiecaException {
+<span class="nc" id="L52">    	List&lt;GenericDTO&gt; listaPaises = adicionalService.getCountries();</span>
+<span class="nc" id="L53">    	principalMSDTO.setPais(adicionalService.setGeneric(listaPaises, principalMSDTO.getPais(), &quot;principalMSDTO.pais.code&quot;));</span>
+<span class="nc" id="L54">    }</span>
+    
+    public PrincipalDTO savePrincipal(PrincipalDTO principalDTO) {
+<span class="nc" id="L57">    	HttpEntity&lt;PrincipalDTO&gt; entity = new HttpEntity&lt;&gt;(principalDTO, getHeaders());</span>
+<span class="nc" id="L58">		return restTemplate.exchange(String.format(&quot;%s%s&quot;, url, principalSavePath), HttpMethod.POST, entity, PrincipalDTO.class).getBody();</span>
+    }
+    
+    public List&lt;AdjuntoDTO&gt; saveAdjunto(PrincipalMainMSDTO principalMainMSDTO, Integer usuarioCreacion) throws SiecaException {
+<span class="nc" id="L62">    	List&lt;DocumentosDTO&gt; adjuntosId = new ArrayList&lt;&gt;();</span>
+    	
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    	if (!CollectionUtils.isEmpty(principalMainMSDTO.getDocumentosSoporte())) {</span>
+<span class="nc" id="L65">    		adjuntosId = adicionalService.saveAdjuntosBase64(principalMainMSDTO.getDocumentosSoporte().stream().map(mapAdjunto -&gt; </span>
+<span class="nc" id="L66">				AdjuntosMapper.INSTANCE.documentosMSDTOToDocumentosDTO(mapAdjunto, new UserDTO(usuarioCreacion, &quot;&quot;))).collect(Collectors.toList()));</span>
+    	}
+    	
+<span class="nc" id="L69">    	return adjuntosId.stream().map(mapAdjuntos -&gt; AdjuntosMapper.INSTANCE.documentosDTOToAdjuntoDTO(mapAdjuntos, usuarioCreacion)).collect(Collectors.toList());</span>
+    }
+    
+    public HttpHeaders getHeaders() {
+<span class="nc" id="L73">    	HttpHeaders headers = new HttpHeaders();</span>
+<span class="nc" id="L74">    	headers.set(HEADER_CONTENTTYPE, HEADER_APPLICATIONJSON);</span>
+<span class="nc" id="L75">		return headers;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
